@@ -151,6 +151,15 @@ export interface AuthOptions extends SSOOptions {
    * @memberof AuthOptions
    */
   forceNTLM: boolean;
+  /**
+   * Bypass the SSO process if the function returns true
+   *
+   * @default undefined
+   *
+   * @type {(req,res)=>boolean}
+   * @memberof AuthOptions
+   */
+  bypass: undefined | ((req: IncomingMessage, res: ServerResponse) => boolean);
 }
 
 export interface User {

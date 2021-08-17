@@ -43,6 +43,7 @@ export function auth(options: Partial<AuthOptions> = {}): Middleware {
     allowsAnonymousLogon: false,
     useSession: false,
     forceNTLM: false,
+    bypass: undefined,
     ...options,
   };
 
@@ -73,8 +74,17 @@ export function auth(options: Partial<AuthOptions> = {}): Middleware {
     res: ServerResponse,
     next: NextFunction
   ): void => {
+    if (opts.bypass && typeof opts.bypass === 'function') {
+      const bypassResult = opts.bypass(req, res);
+      debug('bypass result: ', bypassResult);
+      if (bypassResult === true) {
+        next();
+        return;
+      }
+    }
+
     if (opts.useSession) {
-      const session = ((req as unknown) as { session?: { sso: SSOObject } })
+      const session = (req as unknown as { session?: { sso: SSOObject } })
         .session;
       debug('check the session: ', session);
       if (session?.sso) {
@@ -200,7 +210,7 @@ export function auth(options: Partial<AuthOptions> = {}): Middleware {
         req.sso = sso.getJSON();
         if (opts.useSession) {
           debug('session case');
-          const session = ((req as unknown) as { session?: { sso: SSOObject } })
+          const session = (req as unknown as { session?: { sso: SSOObject } })
             .session;
           debug('session: ', session);
           if (session) {
