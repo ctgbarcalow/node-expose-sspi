@@ -18,10 +18,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/jlguenego/node-expose-sspi.git"
+    "url": "https://github.com/geoffbarcalow/node-expose-sspi.git"
   },
   "bugs": {
-    "url": "https://github.com/jlguenego/node-expose-sspi/issues"
+    "url": "https://github.com/geoffbarcalow/node-expose-sspi/issues"
   },
   "funding": {
     "type": "individual",
